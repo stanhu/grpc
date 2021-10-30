@@ -69,13 +69,8 @@ ENV['BUILDDIR'] = output_dir
 
 unless windows
   puts 'Building internal gRPC into ' + grpc_lib_dir
-  nproc =
-    if ENV['MAKE_NPROC']
-      ENV['MAKE_NPROC']
-    else
-      nproc = 4
-      nproc = Etc.nprocessors * 2 if Etc.respond_to? :nprocessors
-    end
+  nproc = 4
+  nproc = Etc.nprocessors * 2 if Etc.respond_to? :nprocessors
   make = bsd ? 'gmake' : 'make'
   system("#{make} -j#{nproc} -C #{grpc_root} #{grpc_lib_dir}/libgrpc.a CONFIG=#{grpc_config} Q=")
   exit 1 unless $? == 0
