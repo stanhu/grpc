@@ -39,6 +39,8 @@
 #include <grpc/support/alloc.h>
 #include <grpc/support/log.h>
 
+#include "src/core/lib/address_utils/parse_address.h"
+#include "src/core/lib/address_utils/sockaddr_utils.h"
 #include "src/core/lib/channel/channel_args.h"
 #include "src/core/lib/gpr/string.h"
 #include "src/core/lib/gprpp/env.h"
@@ -52,6 +54,33 @@
 
 namespace grpc_core {
 namespace {
+
+static bool serverInCIDRRange(std::string server_host, absl::string_view no_proxy_entry) {
+  auto server_address = StringToSockaddr(server_host, 0);
+  if (!server_address.ok()) {
+    return false;
+  }
+
+  std::vector<absl::string_view> cidr = absl::StrSplit(no_proxy_entry, '/', absl::SkipEmpty());
+  if (cidr.size() == 0 || cidr.size() > 2) {
+    return false;
+  }
+
+  auto proxy_address = StringToSockaddr(cidr[0], 0);
+  if (!proxy_address.ok()) {
+    return false;
+  }
+
+  if (cidr.size() == 1) {
+    return absl::EqualsIgnoreCase(server_host, no_proxy_entry);
+  }
+
+  uint32_t mask_bits = atoi(std::string(cidr[1]).c_str());
+
+  grpc_sockaddr_mask_bits(&*proxy_address, mask_bits);
+
+  return grpc_sockaddr_match_subnet(&*server_address, &*proxy_address, mask_bits);
+}
 
 /**
  * Parses the 'https_proxy' env var (fallback on 'http_proxy') and returns the
@@ -169,7 +198,8 @@ absl::optional<std::string> HttpProxyMapper::MapName(
       std::vector<absl::string_view> no_proxy_hosts =
           absl::StrSplit(*no_proxy_str, ',', absl::SkipEmpty());
       for (const auto& no_proxy_entry : no_proxy_hosts) {
-        if (absl::EndsWithIgnoreCase(server_host, no_proxy_entry)) {
+        if (absl::EndsWithIgnoreCase(server_host, no_proxy_entry) ||
+            serverInCIDRRange(server_host, no_proxy_entry)) {
           gpr_log(GPR_INFO, "not using proxy for host in no_proxy list '%s'",
                   std::string(server_uri).c_str());
           use_proxy = false;
