@@ -55,13 +55,15 @@
 namespace grpc_core {
 namespace {
 
-static bool serverInCIDRRange(std::string server_host, absl::string_view no_proxy_entry) {
+static bool serverInCIDRRange(std::string server_host,
+                              absl::string_view no_proxy_entry) {
   auto server_address = StringToSockaddr(server_host, 0);
   if (!server_address.ok()) {
     return false;
   }
 
-  std::vector<absl::string_view> cidr = absl::StrSplit(no_proxy_entry, '/', absl::SkipEmpty());
+  std::vector<absl::string_view> cidr =
+      absl::StrSplit(no_proxy_entry, '/', absl::SkipEmpty());
   if (cidr.size() == 0 || cidr.size() > 2) {
     return false;
   }
@@ -79,7 +81,8 @@ static bool serverInCIDRRange(std::string server_host, absl::string_view no_prox
 
   grpc_sockaddr_mask_bits(&*proxy_address, mask_bits);
 
-  return grpc_sockaddr_match_subnet(&*server_address, &*proxy_address, mask_bits);
+  return grpc_sockaddr_match_subnet(&*server_address, &*proxy_address,
+                                    mask_bits);
 }
 
 /**
