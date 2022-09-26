@@ -75,8 +75,7 @@ TEST(NoProxyTest, CIDRClassAEntries) {
 
   EXPECT_EQ(HttpProxyMapper().MapName("dns:///193.0.1.1:443", &args),
             "proxy.google.com");
-  EXPECT_EQ(args.GetString(GRPC_ARG_HTTP_CONNECT_SERVER),
-            "193.0.1.1:443");
+  EXPECT_EQ(args.GetString(GRPC_ARG_HTTP_CONNECT_SERVER), "193.0.1.1:443");
 }
 
 // Test entries with CIDR blocks (Class B) in 'no_proxy' list.
@@ -90,8 +89,7 @@ TEST(NoProxyTest, CIDRClassBEntries) {
 
   EXPECT_EQ(HttpProxyMapper().MapName("dns:///192.169.1.1:443", &args),
             "proxy.google.com");
-  EXPECT_EQ(args.GetString(GRPC_ARG_HTTP_CONNECT_SERVER),
-            "192.169.1.1:443");
+  EXPECT_EQ(args.GetString(GRPC_ARG_HTTP_CONNECT_SERVER), "192.169.1.1:443");
 }
 
 // Test entries with CIDR blocks (Class C) in 'no_proxy' list.
@@ -105,8 +103,7 @@ TEST(NoProxyTest, CIDRClassCEntries) {
 
   EXPECT_EQ(HttpProxyMapper().MapName("dns:///192.168.1.1:443", &args),
             "proxy.google.com");
-  EXPECT_EQ(args.GetString(GRPC_ARG_HTTP_CONNECT_SERVER),
-            "192.168.1.1:443");
+  EXPECT_EQ(args.GetString(GRPC_ARG_HTTP_CONNECT_SERVER), "192.168.1.1:443");
 }
 
 // Test entries with CIDR blocks (Class D) in 'no_proxy' list.
@@ -120,8 +117,7 @@ TEST(NoProxyTest, CIDRClassDEntries) {
 
   EXPECT_EQ(HttpProxyMapper().MapName("dns:///192.168.1.0:443", &args),
             "proxy.google.com");
-  EXPECT_EQ(args.GetString(GRPC_ARG_HTTP_CONNECT_SERVER),
-            "192.168.1.0:443");
+  EXPECT_EQ(args.GetString(GRPC_ARG_HTTP_CONNECT_SERVER), "192.168.1.0:443");
 }
 
 // Test entries with CIDR blocks (exact match) in 'no_proxy' list.
@@ -135,8 +131,7 @@ TEST(NoProxyTest, CIDREntries) {
 
   EXPECT_EQ(HttpProxyMapper().MapName("dns:///192.168.0.5:443", &args),
             "proxy.google.com");
-  EXPECT_EQ(args.GetString(GRPC_ARG_HTTP_CONNECT_SERVER),
-            "192.168.0.5:443");
+  EXPECT_EQ(args.GetString(GRPC_ARG_HTTP_CONNECT_SERVER), "192.168.0.5:443");
 }
 
 }  // namespace
