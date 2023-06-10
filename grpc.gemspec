@@ -1919,6 +1919,7 @@ Gem::Specification.new do |s|
   s.files += %w( third_party/abseil-cpp/absl/hash/internal/low_level_hash.h )
   s.files += %w( third_party/abseil-cpp/absl/log/initialize.cc )
   s.files += %w( third_party/abseil-cpp/absl/log/initialize.h )
+  s.files += %w( third_party/abseil-cpp/absl/log/internal/globals.h )
   s.files += %w( third_party/abseil-cpp/absl/memory/memory.h )
   s.files += %w( third_party/abseil-cpp/absl/meta/type_traits.h )
   s.files += %w( third_party/abseil-cpp/absl/numeric/bits.h )
