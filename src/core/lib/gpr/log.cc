@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "absl/log/initialize.h"
 #include "absl/strings/match.h"
 #include "absl/strings/str_cat.h"
 
@@ -109,6 +110,8 @@ static gpr_atm parse_log_severity(absl::string_view str, gpr_atm error_value) {
 }
 
 void gpr_log_verbosity_init() {
+  absl::InitializeLog();
+
   // init verbosity when it hasn't been set
   if ((gpr_atm_no_barrier_load(&g_min_severity_to_print)) ==
       GPR_LOG_SEVERITY_UNSET) {
