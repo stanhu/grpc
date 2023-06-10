@@ -866,6 +866,7 @@ CORE_SOURCE_FILES = [
     'third_party/abseil-cpp/absl/hash/internal/city.cc',
     'third_party/abseil-cpp/absl/hash/internal/hash.cc',
     'third_party/abseil-cpp/absl/hash/internal/low_level_hash.cc',
+    'third_party/abseil-cpp/absl/log/initialize.cc',
     'third_party/abseil-cpp/absl/numeric/int128.cc',
     'third_party/abseil-cpp/absl/profiling/internal/exponential_biased.cc',
     'third_party/abseil-cpp/absl/random/discrete_distribution.cc',
