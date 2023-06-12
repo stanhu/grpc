@@ -111,13 +111,9 @@ static gpr_atm parse_log_severity(absl::string_view str, gpr_atm error_value) {
   return error_value;
 }
 
-static void do_log_init() {
-  absl::InitializeLog();
-}
+static void do_log_init() { absl::InitializeLog(); }
 
-void gpr_log_init() {
-  gpr_once_init(&g_log_init, do_log_init);
-}
+void gpr_log_init() { gpr_once_init(&g_log_init, do_log_init); }
 
 void gpr_log_verbosity_init() {
   // init verbosity when it hasn't been set
