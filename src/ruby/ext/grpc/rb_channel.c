@@ -789,8 +789,8 @@ void grpc_rb_channel_polling_thread_stop() {
             "GRPC_RUBY: channel polling thread stop: thread was not started");
     return;
   }
-  rb_thread_call_without_gvl(run_poll_channels_loop_unblocking_func_wrapper, NULL, NULL,
-                             NULL);
+  rb_thread_call_without_gvl(run_poll_channels_loop_unblocking_func_wrapper,
+                             NULL, NULL, NULL);
   rb_funcall(g_channel_polling_thread, rb_intern("join"), 0);
   // state associated with the channel polling thread is destroyed, reset so
   // we can start again later
