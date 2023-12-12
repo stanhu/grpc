@@ -160,7 +160,8 @@ void grpc_rb_event_queue_thread_stop() {
             "GRPC_RUBY: call credentials thread stop: thread not running");
     return;
   }
-  rb_thread_call_without_gvl(grpc_rb_event_unblocking_func_wrapper, NULL, NULL, NULL);
+  rb_thread_call_without_gvl(grpc_rb_event_unblocking_func_wrapper, NULL, NULL,
+                             NULL);
   rb_funcall(g_event_thread, rb_intern("join"), 0);
   g_event_thread = Qnil;
 }
