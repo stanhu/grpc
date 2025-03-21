@@ -120,6 +120,8 @@ void gpr_log_init() {
 }
 
 void gpr_log_verbosity_init() {
+  absl::InitializeLog();
+
   // init verbosity when it hasn't been set
   if ((gpr_atm_no_barrier_load(&g_min_severity_to_print)) ==
       GPR_LOG_SEVERITY_UNSET) {
