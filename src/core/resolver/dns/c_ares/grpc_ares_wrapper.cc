@@ -648,8 +648,7 @@ void grpc_ares_complete_request_locked(grpc_ares_request* r)
 
 static grpc_ares_getaddrinfo_request* create_getaddrinfo_request_locked(
     grpc_ares_request* parent_request, const char* host, uint16_t port,
-    bool is_balancer)
-    ABSL_EXCLUSIVE_LOCKS_REQUIRED(parent_request->mu) {
+    bool is_balancer) ABSL_EXCLUSIVE_LOCKS_REQUIRED(parent_request->mu) {
   GRPC_TRACE_VLOG(cares_resolver, 2)
       << "(c-ares resolver) request:" << parent_request
       << " create_getaddrinfo_request_locked host:" << host << " port:" << port
@@ -663,7 +662,8 @@ static grpc_ares_getaddrinfo_request* create_getaddrinfo_request_locked(
   return hr;
 }
 
-static void destroy_getaddrinfo_request_locked(grpc_ares_getaddrinfo_request* hr)
+static void destroy_getaddrinfo_request_locked(
+    grpc_ares_getaddrinfo_request* hr)
     ABSL_EXCLUSIVE_LOCKS_REQUIRED(hr->parent_request->mu) {
   grpc_ares_request_unref_locked(hr->parent_request);
   gpr_free(hr->host);
