@@ -661,8 +661,7 @@ void AresResolver::OnAresBackupPollAlarm() {
   }
 }
 
-void AresResolver::OnGetaddrinfoLocked(void* arg, int status,
-                                       int /*timeouts*/,
+void AresResolver::OnGetaddrinfoLocked(void* arg, int status, int /*timeouts*/,
                                        struct ares_addrinfo* addrinfo) {
   auto* hostname_qa = static_cast<HostnameQueryArg*>(arg);
   GRPC_CHECK_GT(hostname_qa->pending_requests--, 0);
